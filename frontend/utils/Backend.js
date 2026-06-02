@@ -11,18 +11,15 @@ import Job from "./Job.js"
 class Backend {
     /**
      * Represents the backend to be connected to.
-     * 
-     * @param {int} port The port of the backend.
      */
-    constructor(port = 8000) {
-        this.port = port;
+    constructor() {
     }
     
     /**
      * The base URL of the backend.
      */
     get url() {
-        return `http://localhost:${this.port}`;
+        return `https://joborbit-ljm1.onrender.com/`;
     }
     
     /**
