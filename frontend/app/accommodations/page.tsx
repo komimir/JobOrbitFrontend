@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import SalaryDropdown, { SALARY_RANGES } from '../components/SalaryDropdown'
 import { getFlag } from '../components/Countries'
-
 import Accommodation from '@/utils/Accommodation';
 import backend from '@/utils/Backend';
+import { Suspense } from 'react';
 
 
 const PRICE_RANGES = [
@@ -77,7 +77,7 @@ function AccommodationCard({ item, city, country }: {
           View listing
           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-          </svg>
+        </svg>
         </span>
       </div>
     </article>
@@ -85,7 +85,7 @@ function AccommodationCard({ item, city, country }: {
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
-export default function AccommodationsPage() {
+function AccommodationsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -395,5 +395,19 @@ export default function AccommodationsPage() {
 
       </div>
     </main>
+  )
+}
+
+
+// ── Page (outer shell — required Suspense wrapper) ────────────────────────────
+export default function AccommodationsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <p className="text-slate-500 text-sm animate-pulse">Loading accommodations...</p>
+      </div>
+    }>
+      <AccommodationsContent />
+    </Suspense>
   )
 }

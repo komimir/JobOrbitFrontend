@@ -4,7 +4,7 @@ import { getFlag } from '../components/Countries'
 import SalaryDropdown, { SALARY_RANGES } from '../components/SalaryDropdown'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import clsx from 'clsx'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, Suspense, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import backend from "../../utils/Backend.js"
@@ -111,7 +111,7 @@ function JobCard({ job }: { job: Job }) {
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
-export default function JobPage() {
+function JobContent() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -391,5 +391,17 @@ export default function JobPage() {
 
       </div>
     </main>
+  )
+}
+
+export default function JobPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <p className="text-slate-500 text-sm animate-pulse">Loading jobs...</p>
+      </div>
+    }>
+      <JobContent />
+    </Suspense>
   )
 }
