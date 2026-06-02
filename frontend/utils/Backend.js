@@ -19,7 +19,7 @@ class Backend {
      * The base URL of the backend.
      */
     get url() {
-        return `https://joborbit-ljm1.onrender.com/`;
+        return `https://joborbit-ljm1.onrender.com`;
     }
     
     /**
