@@ -1,5 +1,8 @@
 
 
+import { parseUSD, USD2PHP } from "./currency.js";
+
+
 /**
  * Represents an accommodation given by the backend API.
  */
@@ -15,17 +18,19 @@ export default class Accommodation {
         this.url = data["url"];
 
         /**
-         * The {@link this.price} member is a string with the form:
+         * The {@link USDString} value is a string with the form:
          * 
          *      <currency symbol><price>
          *      
-         * For example, the price could have the following values:
+         * For example, the {@link USDString} could have the following values:
          * 
          *      $1,000
          *      $54
          *      $7,941
          */
-        this.price = data["price"];
+        const USDString = data["price"];
+        this.price = USD2PHP(parseUSD(USDString));
+        this.price = Number.isFinite(this.price) ? this.price : null;
 
         this.description = data["description"];
         this.rating = data["rating"];

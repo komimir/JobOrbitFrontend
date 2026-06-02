@@ -59,7 +59,7 @@ function AccommodationCard({ item, city, country }: {
         </div>
         <div className="flex-shrink-0 text-right">
           <span className="text-sm font-semibold text-amber-400">
-            {item.price}
+            ₱{item.price !== null ? item.price.toFixed(2) : "No Price Specified"}
           </span>
           <p className="text-[10px] text-slate-600 mt-0.5">per month</p>
         </div>
@@ -127,11 +127,13 @@ function AccommodationsContent() {
    */
   const is_relevant_accommodation = (accommodation: Accommodation) => {
     const matchName = accomQuery === "" || accommodation.name.toLowerCase().includes(accomQuery.toLowerCase());
+    const matchPrice = activePrice.label === "Any Price" || (
+      accommodation.price !== null
+      && activePrice.min <= accommodation.price
+      && accommodation.price <= activePrice.max
+    );
 
-    // TODO: Figure out how to properly filter price.
-    // const matchPrice = activePrice.label === "Any Price";
-
-    return matchName;
+    return matchName && matchPrice;
   }
   
   /**
