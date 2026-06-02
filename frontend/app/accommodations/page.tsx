@@ -99,7 +99,7 @@ export default function AccommodationsPage() {
   const jobDescription = searchParams.get('jobDescription') ?? ''
   const jobTags = searchParams.get('jobTags')?.split(',') ?? []
 
-  // Accommodation filters — city pre-filled from job, country locked
+  // Accommodation filters — city & country locked down from chosen job details
   const [cityQuery, setCityQuery] = useState(jobCity)
   const [accomQuery, setAccomQuery] = useState('')
   const [priceRange, setPriceRange] = useState(PRICE_RANGES[0].label)
@@ -341,27 +341,19 @@ export default function AccommodationsPage() {
           {/* Row 2: city + price range */}
           <div className="flex items-stretch gap-3">
             {/* City search */}
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                </svg>
-              </div>
-              <input
-                type="text"
-                value={cityQuery}
-                placeholder="Search city..."
-                onChange={(e) => setCityQuery(e.target.value)}
-                className="
-                  pl-11 pr-4 py-3
-                  rounded-xl bg-slate-800/60 hover:bg-slate-800
-                  border border-slate-700 focus:border-amber-400/60
-                  text-sm text-slate-100 placeholder-slate-500
-                  focus:outline-none focus:shadow-[0_0_0_2px_rgba(251,191,36,0.2)]
-                  transition-all duration-150
-                "
-              />
+            {/* Locked city chip (Matches UI scheme of locked country) */}
+            <div className="
+              inline-flex items-center gap-2 px-4 py-3
+              rounded-xl
+              bg-slate-800/30 border border-slate-700/50
+              text-sm font-medium text-slate-500
+              cursor-not-allowed select-none
+              flex-shrink-0
+            ">
+              <svg className="w-4 h-4 text-slate-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+              <span className="max-w-[160px] truncate">{jobCity}</span>
             </div>
 
             {/* Price range dropdown — reusing SalaryDropdown */}
